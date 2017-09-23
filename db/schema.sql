@@ -10,3 +10,12 @@ CREATE TABLE burgers(
     devoured boolean,
     date datetime
 );
+
+-- Insert Stored Procedure
+-- DELIMITER // 
+--  CREATE PROCEDURE Put_Burgers( IN burgerStr varchar(100), IN devouredBool boolean)
+--    BEGIN
+--    INSERT INTO burgers ( burger_name, devoured, date) 
+--     VALUES( in_burgerStr, in_devouredBool , NOW());
+--    END //
+--  DELIMITER ;

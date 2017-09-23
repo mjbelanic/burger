@@ -1,32 +1,37 @@
 var connection  = require("./connection.js");
 
-connection.connect(function(err){
-    if(err){
-        console.error("Error connecting: " + err.stack);
-        return;
+var orm = {
+    selectAll: function(tableName , cb){
+        var queryString = "SELECT * FROM "+tableName+";";
+        connection.query(queryString, function(err, results){
+            if(err){
+                console.error(err.stack);
+            }
+            cb(results);
+        });
+    },
+
+    insertOne: function(tableName, colName, value, cb){
+        //Ask about escaping and table name
+        value = "'" + value + "'";
+        var queryString = "INSERT INTO "+tableName+" ("+colName+", devoured, date) VALUES("+value+", false, NOW());";
+        console.log(queryString);
+        connection.query(queryString, function(err, results){
+            cb(results);
+        })
+    },
+
+    updateOne: function(tableName, condition, name, cb){
+        console.log(condition);
+        var queryString = "UPDATE "+tableName+" SET "+condition+" WHERE burger_name = " +name+";";
+        connection.query( queryString, function(err,results){
+            if(err){
+                console.error("Error: " + err.stack);
+            }else{
+                cb(results);
+            }
+        });
     }
-    console.log("Connected as id: " + connection.threadId);
-});
-
-function selectAll(){
-    connection.query("Select * FROM burgers", function(err, results){
-        //handlebar stuff with results
-    });
 };
 
-function insertOne(name, devoured){
-    var created = new Date();
-    connection.query("INSERT INTO  burgers (name, devoured, date) VALUES (? , ? , ?)", [name, devoured, created], function(err, result){
-        //handlebar stuff
-    })
-};
-
-function updateOne(name){
-    connection.queryy("UPDATE burgers SET devoured = false WHERE name = ?", [name], function(err,result){
-        if(err){
-            console.error("Error: " + err.stack);
-        }else{
-            //handlebar stuff
-        }
-    });
-};
+module.exports = orm;
