@@ -22,7 +22,7 @@ router.put("/:name", function(req,res){
     var condition;
     var burgerName = "'" + req.params.name + "'";
     console.log(req.body.devoured);
-    if(req.body.devoured){
+    if(req.body.devoured === "false"){
         condition = "devoured = true";
     }else{
         condition = "devoured = false";
