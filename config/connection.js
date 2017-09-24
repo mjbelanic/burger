@@ -8,12 +8,6 @@ var connection = mysql.createConnection({
     password: process.env.password,
     database: process.env.databaseName
 });
-/* 
-host: 'us-cdbr-iron-east-05.cleardb.net'
-user: 'bc261581376989'
-password: '2b2ae125'
-database: `heroku_566b689674139e4'
-*/
 
 //Make connection
 connection.connect(function(err){
