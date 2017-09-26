@@ -2,12 +2,22 @@ var mysql = require("mysql");
 var express = require("express");
 var app = express();
 
-var connection = mysql.createConnection({
-    host: process.env.host,
-    user: process.env.user,
-    password: process.env.password,
-    database: process.env.databaseName
-});
+var connection;
+if (process.env.CLEARDB_DATABASE_URL) {
+    connection = mysql.createConnection({
+        host: process.env.host,
+        user: process.env.user,
+        password: process.env.password,
+        database: process.env.databaseName
+    });
+} else {
+    connection = mysql.createConnection({
+        host: "127.0.0.1",
+        user: "root",
+        password: "test",
+        database: "burger_db"
+    });
+}
 
 //Make connection
 connection.connect(function(err){
